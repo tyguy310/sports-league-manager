@@ -31,3 +31,14 @@ exports.deleteOne = function (tableName, itemId, callback) {
     callback(err);
   });
 };
+
+//Allows us to post to any table by creating an object in the route and passing it into this function. 
+exports.postItem = function (tableName, object, callback) {
+  knex(tableName)
+  .insert(object)
+  .then(result => {
+    callback (null, result);
+  }).catch(err => {
+    callback(err);
+  });
+};
