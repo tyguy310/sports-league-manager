@@ -1,0 +1,17 @@
+<!-- This is intended to be a page for all events. -->
+
+{% extends "_base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+{% for event in events %}
+
+<div class='container'>
+  <h1>{{ event.title }}</h1>
+</div>
+
+{% endfor %}
+
+{% endblock %}
