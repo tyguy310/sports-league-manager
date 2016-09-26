@@ -1,3 +1,4 @@
+//done for now
 const faker = require('faker');
 
 function locationsSeed(knex) {
@@ -17,7 +18,7 @@ exports.seed = function (knex, Promise) {
 
   var ArrayOfPromises = Array.from(iterationArray)
   .map(() => {
-    return addressSeed(knex);
+    return locationsSeed(knex);
   });
 
   return Promise.all(ArrayOfPromises);
