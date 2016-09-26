@@ -31,7 +31,7 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
-router.get('/myteam/:id', function (req, res, next) {
+router.get('/myteams/:id', function (req, res, next) {
   let playerId = req.params.id;
   queries.joinPlayerToTeams(playerId, function (err, result) {
     if (err) {

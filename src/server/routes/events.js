@@ -81,4 +81,19 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
+router.get('/myevents/:id', function (req, res, next) {
+  let playerId = req.params.id;
+  queries.joinPlayerToEvents(playerId, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'No events found for that player.'
+      });
+    } else {
+      res.json({
+        events: result
+      });
+    }
+  });
+});
+
 module.exports = router;

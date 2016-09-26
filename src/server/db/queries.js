@@ -64,6 +64,19 @@ exports.joinPlayerToTeams = function(playerId, callback) {
   });
 };
 
+exports.joinPlayerToEvents = function(playerId, callback) {
+  knex('players_events')
+  .select('date', 'start_time', 'end_time', 'name', 'description')
+  .join('players', 'players.id', '=', 'players_events.player_id')
+  .join('events', 'events.id', '=', 'players_events.event_id')
+  .where('players.id', '=', playerId)
+  .then(result => {
+    callback(null, result[0]);
+  }).catch(err => {
+    callback(err);
+  });
+};
+
 exports.updateOne = function(tableName, itemId, updateObject, callback) {
   let updatedPlayer = {};
   knex(tableName)
