@@ -45,3 +45,16 @@ exports.postItem = function (tableName, object, callback) {
     callback(err);
   });
 };
+
+exports.joinPlayerToTeams = function(playerId, callback) {
+  knex('players_teams')
+  .select('name', 'image', 'zip', 'teams.gender', 'coed')
+  .join('players', 'players.id', '=', 'players_teams.players_id')
+  .join('teams', 'teams.id', '=', 'players_teams.teams_id')
+  .where('players.id', '=', playerId)
+  .then(result => {
+    callback(null, result[0]);
+  }).catch(err => {
+    callback(err);
+  });
+};

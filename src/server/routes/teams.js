@@ -31,4 +31,19 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
+router.get('/myteam/:id', function (req, res, next) {
+  let playerId = req.params.id;
+  queries.joinPlayerToTeams(playerId, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'No teams found for that player.'
+      });
+    } else {
+      res.json({
+        teams: result
+      });
+    }
+  });
+});
+
 module.exports = router;
