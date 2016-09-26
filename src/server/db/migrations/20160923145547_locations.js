@@ -9,8 +9,6 @@ exports.up = function(knex, Promise) {
     table.string('loc_add_city').notNullable();
     table.string('loc_add_state').notNullable();
     table.string('loc_add_zip').notNullable();
-    //this line, league_id, should reference ('leagues.id')
-    table.string('league_id');
   });
 };
 
