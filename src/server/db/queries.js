@@ -58,3 +58,26 @@ exports.joinPlayerToTeams = function(playerId, callback) {
     callback(err);
   });
 };
+
+exports.updateOne = function(tableName, itemId, updateObject, callback) {
+  let updatedPlayer = {};
+  knex(tableName)
+  .where('id', itemId)
+  .then(player => {
+    for (let key in updateObject) {
+      if (updateObject[key] === null) {
+        updatedPlayer[key] = player[key];
+      } else {
+        updatedPlayer[key] = updateObject[key];
+      }
+    }
+    knex(tableName)
+    .where('id', itemId)
+    .update(updatedPlayer)
+    .then(result => {
+      callback(null, result);
+    });
+  }).catch(err=> {
+    callback(err);
+  });
+};

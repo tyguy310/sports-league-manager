@@ -49,4 +49,31 @@ router.get('/:id', function (req, res, next) {
   }, playerId);
 });
 
+router.put('/:id', function (req, res, next) {
+  let playerId = req.params.id;
+  let updateObject = {
+    first_name: req.body.first_name || null,
+    last_name: req.body.last_name || null,
+    email: req.body.email || null,
+    profile_picture: req.body.profile_picture || null,
+    username: req.body.username || null,
+    password: req.body.password || null,
+    tagline: req.body.tagline || null,
+    zip_code: req.body.zip_code || null,
+    availability: req.body.availability || null,
+    gender: req.body.gender || null
+  };
+  queries.updateOne('players', playerId, updateObject, function(err, result) {
+    if (err) {
+      res.json({
+        error: err
+      });
+    } else {
+      res.json({
+        message: result
+      });
+    }
+  });
+});
+
 module.exports = router;
