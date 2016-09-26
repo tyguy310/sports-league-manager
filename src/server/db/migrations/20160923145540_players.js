@@ -11,6 +11,7 @@ exports.up = function(knex, Promise) {
     table.string('zip_code').notNullable();
     table.integer('availability').defaultTo(36);
     table.string('gender');
+    table.integer('account_id').references('id').inTable('accounts');
   });
 };
 
