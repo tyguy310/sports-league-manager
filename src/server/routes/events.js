@@ -7,10 +7,14 @@ router.get('/', function (req, res, next) {
   queries.getItems('events', function(err, result) {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue loading all of our events. Please try again.';
-      res.render('error', renderObject);
+      res.json({
+        error: renderObject
+      });
     } else {
       renderObject.events = result;
-      res.render('events', renderObject);
+      res.json({
+        events: renderObject
+      });
     }
   });
 });
@@ -21,10 +25,16 @@ router.get('/:id', function (req, res, next) {
   queries.getItems('events', function (err, result) {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue finding that event. Please try again.';
-      res.render('error', renderObject);
+      res.json({
+        error: renderObject
+      });
     } else {
       renderObject.event = result;
-      res.render('single', renderObject);
+      res.json({
+        event: renderObject
+      });
     }
-  });
+  }, itemId);
 });
+
+module.exports = router;
