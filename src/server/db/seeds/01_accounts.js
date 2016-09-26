@@ -1,11 +1,11 @@
 
 const faker = require('faker');
 
-// function accountsSeed(knex) {
-//   return knex('accounts').insert({
-//     // faker functions go here
-//   });
-// }
+function accountsSeed(knex) {
+  return knex('accounts').insert({
+    // faker functions go here
+  });
+}
 
 exports.seed = function (knex, Promise) {
   const iterationArray = new Array(100);
