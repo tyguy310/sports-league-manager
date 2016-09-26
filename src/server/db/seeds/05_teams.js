@@ -1,7 +1,7 @@
 const faker = require('faker');
 
 function randomGender() {
-  var genderNum = (Math.floor(Math.random() * 2) + 1 );
+  var genderNum = (Math.floor(Math.random() * 2) + 1);
   if (genderNum === 1) {
     return 'male';
   } else {
@@ -17,7 +17,7 @@ function teamsSeed(knex) {
     gender: randomGender(),
     coed: faker.random.boolean(),
     players_id: faker.random.number({min:1, max:200}),
-    sports_id: faker.random.number({min:1, max:12}),
+    sports_id: faker.random.number({min:1, max:12})
   });
 }
 
