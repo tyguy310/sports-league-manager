@@ -1,13 +1,13 @@
 const faker = require('faker');
 
 function randomGender() {
-  genderNum = (Math.floor(Math.random() * 2) + 1 )
-  if (genderNum = 1) {
-    return 'male'
+   const genderNum = (Math.floor(Math.random() * 2) + 1 );
+  if (genderNum === 1) {
+    return 'male';
   } else {
-    return 'female'
+    return 'female';
   }
-};
+}
 
 function teamsSeed(knex) {
   return knex('teams').insert({
