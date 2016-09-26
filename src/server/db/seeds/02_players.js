@@ -26,7 +26,7 @@ function playersSeed(knex) {
     tagline: faker.lorem.sentence(),
     zip_code: (80000 + (Math.floor(Math.random() * 20) + 1)),
     availability: (' ' + (Math.floor(Math.random() * 3) + 1) + (Math.floor(Math.random() * 3) + 4)),
-    gender: randomGender(),
+    gender: randomGender()
   });
 }
 
