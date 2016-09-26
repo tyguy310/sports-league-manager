@@ -6,13 +6,13 @@ function randomZip() {
 }
 
 function randomGender() {
-  genderNum = (Math.floor(Math.random() * 2) + 1 )
-  if (genderNum = 1) {
-    return 'male'
+  var genderNum = (Math.floor(Math.random() * 2) + 1 );
+  if (genderNum === 1) {
+    return 'male';
   } else {
-    return 'female'
+    return 'female';
   }
-};
+}
 
 function playersSeed(knex) {
 

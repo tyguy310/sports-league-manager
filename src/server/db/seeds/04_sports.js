@@ -17,7 +17,7 @@ exports.seed = function (knex, Promise) {
     knex('sports').insert({type: 'soccer', team_capacity: 11}),
     knex('sports').insert({type: 'hockey', team_capacity: 8}),
     knex('sports').insert({type: 'cornhole', team_capacity: 2})
-    ])
+  ]);
   });
 };
 
