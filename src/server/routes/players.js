@@ -47,4 +47,6 @@ router.get('/:id', function (req, res, next) {
       });
     }
   }, playerId);
-})
+});
+
+module.exports = router;
