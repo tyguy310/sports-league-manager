@@ -16,7 +16,6 @@ function teamsSeed(knex) {
     zip: (80000 + (Math.floor(Math.random() * 20) + 1)),
     gender: randomGender(),
     coed: faker.random.boolean(),
-    players_id: faker.random.number({min:1, max:200}),
     sports_id: faker.random.number({min:1, max:12})
   });
 }
