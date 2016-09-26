@@ -7,7 +7,12 @@ exports.getItems = function(tableName, callback, itemId) {
     knex(tableName)
     .where('id', itemId)
     .then(result => {
-      callback(null, result);
+      if (result.length) {
+        callback(null, result);
+      }
+      else {
+        callback(1);
+      }
     }).catch(err => {
       callback(err);
     });
