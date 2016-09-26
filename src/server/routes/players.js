@@ -26,3 +26,17 @@ router.post('/', function (req, res, next) {
     }
   });
 });
+
+router.get('/:id', function (req, res, next) {
+  let playerId = req.params.id;
+  let renderObject = {};
+  queries.getItems('players', function(err, result) {
+    if (err) {
+      renderObject.message = err.message || 'We were unable to find that profile. Please try again.';
+      res.render('error', renderObject);
+    } else {
+      renderObject.player = result;
+      res.render('player_profile', renderObject);
+    }
+  }, playerId);
+})
