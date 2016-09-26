@@ -1,7 +1,8 @@
 const faker = require('faker');
 
 function randomGender() {
-   const genderNum = (Math.floor(Math.random() * 2) + 1 );
+  const genderNum = (Math.floor(Math.random() * 2) + 1 );
+  
   if (genderNum === 1) {
     return 'male';
   } else {

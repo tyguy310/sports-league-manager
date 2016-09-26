@@ -6,7 +6,7 @@ router.get('/', function (req, res, next) {
   queries.getItems('sports', function (err, result) {
     if (err) {
       res.json({
-        error: err.message || 'An error occurred, please try again';
+        error: err.message || 'An error occurred, please try again'
       });
     } else {
       res.json({
@@ -21,7 +21,7 @@ router.get('/:id', function (req, res, next) {
   queries.getItems('sports', function (err, result) {
     if (err) {
       res.json({
-        error: err.message || 'Sport not found.';
+        error: err.message || 'Sport not found.'
       });
     } else {
       res.json({
