@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('date').notNullable();
     table.string('start_time').notNullable();
-    table.string('end_time').notNullable().unique();
+    table.string('end_time').notNullable();
     table.string('name').notNullable();
     table.string('description').notNullable();
     table.integer('locations_id').notNullable();

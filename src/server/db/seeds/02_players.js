@@ -6,17 +6,16 @@ function randomZip() {
 }
 
 function randomGender() {
-  var gender;
   genderNum = (Math.floor(Math.random() * 2) + 1 )
   if (genderNum = 1) {
-    gender = male
+    return 'male'
   } else {
-    gender = female
+    return 'female'
   }
-  return gender
 };
 
 function playersSeed(knex) {
+
   return knex('players').insert({
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
