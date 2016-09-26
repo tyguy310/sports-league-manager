@@ -37,7 +37,7 @@ router.get('/:id', function (req, res, next) {
   }, itemId);
 });
 
-router.post('/new', (req, res, next) => {
+router.post('/', (req, res, next) => {
   let renderObject = {};
   let newEvent = {
     date: req.body.date,
@@ -51,6 +51,24 @@ router.post('/new', (req, res, next) => {
   queries.postItem ('events', newEvent, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, there was an issue creating that event. Please try again.';
+      res.json({
+        error: renderObject
+      });
+    } else {
+      renderObject.event = result;
+      res.json({
+        event: renderObject
+      });
+    }
+  });
+});
+
+router.delete('/:id', (req, res, next) => {
+  let renderObject = {};
+  let itemId = req.params.id;
+  queries.deleteOne('events', itemId, (err, result) => {
+    if (err) {
+      renderObject.message = err.message || 'Sorry, we had an issue finding that event. Please try again.';
       res.json({
         error: renderObject
       });
