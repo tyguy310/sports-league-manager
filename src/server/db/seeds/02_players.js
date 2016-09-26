@@ -6,7 +6,7 @@ function randomZip() {
 }
 
 function randomGender() {
-  var genderNum = (Math.floor(Math.random() * 2) + 1 );
+  var genderNum = (Math.floor(Math.random() * 2) + 1);
   if (genderNum === 1) {
     return 'male';
   } else {
@@ -25,7 +25,7 @@ function playersSeed(knex) {
     password: faker.internet.password(),
     tagline: faker.lorem.sentence(),
     zip_code: (80000 + (Math.floor(Math.random() * 20) + 1)),
-    availability: (" " + (Math.floor(Math.random() * 3) + 1) + (Math.floor(Math.random() * 3) + 4)),
+    availability: (' ' + (Math.floor(Math.random() * 3) + 1) + (Math.floor(Math.random() * 3) + 4)),
     gender: randomGender(),
   });
 }
