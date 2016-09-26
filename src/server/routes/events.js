@@ -37,4 +37,35 @@ router.get('/:id', function (req, res, next) {
   }, itemId);
 });
 
+router.get('/new', (req, res, next) => {
+  const renderObject = req.renderObject;
+  res.json('new_event', renderObject);
+});
+
+router.post('/new', (req, res, next) => {
+  let renderObject = {};
+  let newEvent = {
+    date: req.body.date,
+    start_time: req.body.start_time,
+    end_time: req.body.end_time,
+    name: req.body.name,
+    description: req.body.description,
+    locations_id: req.body.locations_id,
+    sports_id: req.body.sports_id
+  };
+  queries.postItem ('events', newEvent, (err, result) => {
+    if (err) {
+      renderObject.message = err.message || 'Sorry, there was an issue creating that event. Please try again.';
+      res.json({
+        error: renderObject
+      });
+    } else {
+      renderObject.event = result;
+      res.json({
+        event: renderObject
+      });
+    }
+  });
+});
+
 module.exports = router;
