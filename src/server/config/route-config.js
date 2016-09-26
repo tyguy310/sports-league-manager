@@ -8,12 +8,15 @@
     const routes = require('../routes/index');
     const eventRoutes = require('../routes/events');
     const playerRoutes = require('../routes/players');
+    const sportRoutes = require('../routes/sports');
+    const teamRoutes = require('../routes/teams');
 
     // *** register routes *** //
     app.use('/', routes);
     app.use('/events', eventRoutes);
     app.use('/players', playerRoutes);
-
+    app.use('/sports', sportRoutes);
+    app.use('/teams', teamRoutes);
   };
 
 })(module.exports);

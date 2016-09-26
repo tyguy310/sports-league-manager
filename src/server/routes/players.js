@@ -19,10 +19,34 @@ router.post('/', function (req, res, next) {
   queries.postItem ('players', newPlayer, function(err, result) {
     if (err) {
       renderObject.message = err.message || 'Sorry, there was an issue creating that account. Please try again.';
-      res.render('error', renderObject);
+      res.json({
+        error: renderObject
+      });
     } else {
       renderObject.player = result;
-      res.render('player_profile', renderObject);
+      res.json({
+        player: renderObject
+      });
     }
   });
 });
+
+router.get('/:id', function (req, res, next) {
+  let playerId = req.params.id;
+  let renderObject = {};
+  queries.getItems('players', function(err, result) {
+    if (err) {
+      renderObject.message = err.message || 'We were unable to find that profile. Please try again.';
+      res.json({
+        error: renderObject
+      });
+    } else {
+      renderObject.player = result;
+      res.json({
+        player: renderObject
+      });
+    }
+  }, playerId);
+});
+
+module.exports = router;

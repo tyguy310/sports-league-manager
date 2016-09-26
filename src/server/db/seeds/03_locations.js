@@ -9,7 +9,7 @@ function locationsSeed(knex) {
     loc_add_line_1: faker.address.streetAddress(),
     loc_add_city: faker.address.city(),
     loc_add_state: faker.address.state(),
-    loc_add_zip: faker.address.zipCode().split('-')[0],
+    loc_add_zip: faker.address.zipCode().split('-')[0]
   });
 }
 
