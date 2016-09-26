@@ -37,11 +37,6 @@ router.get('/:id', function (req, res, next) {
   }, itemId);
 });
 
-router.get('/new', (req, res, next) => {
-  const renderObject = req.renderObject;
-  res.json('new_event', renderObject);
-});
-
 router.post('/new', (req, res, next) => {
   let renderObject = {};
   let newEvent = {
