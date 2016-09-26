@@ -36,3 +36,5 @@ router.get('/:id', function (req, res, next) {
     }
   }, itemId);
 });
+
+module.exports = router;
