@@ -26,5 +26,5 @@ router.get('/:id', function (req, res, next) {
       renderObject.event = result;
       res.render('single', renderObject);
     }
-  });
+  }, itemId);
 });
