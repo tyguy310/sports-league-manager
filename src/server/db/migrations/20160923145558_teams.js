@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('name').notNullable();
     table.string('image').notNullable();
-    table.string('zip').notNullable().unique();
+    table.string('zip').notNullable();
     table.string('gender').notNullable();
     table.boolean('coed').notNullable();
     table.integer('players_id').notNullable();
