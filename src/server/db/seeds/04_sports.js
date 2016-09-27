@@ -5,7 +5,7 @@ exports.seed = function (knex, Promise) {
   return knex('sports')
   .then(function() {
     return Promise.all([
-      knex('sports').insert({type: 'Soccer', team_capacity: 11, image: '../../images/sports/soccer.jpg' }),
+      knex('sports').insert({type: 'Soccer', team_capacity: 11, image: '../images/sports/soccer.jpg' }),
       knex('sports').insert({type: 'Ping Pong', team_capacity: 2, image: '../../images/sports/pingpong.jpg'}),
       knex('sports').insert({type: 'Basketball', team_capacity: 8, image: '../../images/sports/basketball.jpg'}),
       knex('sports').insert({type: 'Badminton', team_capacity: 2, image: '../../images/sports/badminton.jpeg'}),
