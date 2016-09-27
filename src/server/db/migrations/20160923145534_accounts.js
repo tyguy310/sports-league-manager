@@ -3,6 +3,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.boolean('is_user').defaultTo(false);
     table.boolean('is_admin').defaultTo(false);
+    table.string('github_id');
   });
 };
 
