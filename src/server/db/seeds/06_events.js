@@ -11,7 +11,7 @@ function eventsSeed(knex) {
     name: faker.commerce.productName(),
     description: faker.lorem.sentence(),
     locations_id: faker.random.number({min:1, max:50}),
-    sports_id: faker.random.number({min:1, max:12})
+    sports_id: faker.random.number({min:1, max:11})
   });
 }
 
