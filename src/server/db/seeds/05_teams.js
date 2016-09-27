@@ -12,7 +12,7 @@ function randomGender() {
 function teamsSeed(knex) {
   return knex('teams').insert({
     name: (faker.hacker.ingverb() + ' ' + faker.hacker.noun() + 's'),
-    image: faker.image.animals(),
+    image: '../../images/teams/teamplaceholder1.jpeg',
     zip: (80000 + (Math.floor(Math.random() * 20) + 1)),
     gender: randomGender(),
     coed: faker.random.boolean(),

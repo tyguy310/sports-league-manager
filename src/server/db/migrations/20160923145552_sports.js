@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     table.integer('team_capacity').notNullable();
     table.boolean('own_equipment_required').defaultTo(false);
     table.integer('number_already_registered').notNullable().defaultTo(0);
+    table.string('image');
   });
 };
 
