@@ -24,7 +24,9 @@
     "path": "^0.12.7",
     "pg": "6.1.0",
     "querystring": "^0.2.0",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "pg": "6.1.0",
+    "twitter-node-client": "0.0.6"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -41,5 +43,8 @@
     "mocha-jshint": "^2.3.1",
     "run-sequence": "^1.2.2",
     "tiny-lr": "^0.2.1"
+  },
+  "engines": {
+    "node": "6.6.0"
   }
 }

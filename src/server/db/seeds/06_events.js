@@ -5,7 +5,7 @@ function eventsSeed(knex) {
   var startTime = faker.random.number({min:8, max:20});
   var end = (startTime + 3);
   return knex('events').insert({
-    date: faker.date.between('2016-10-27', '2017-03-31'),
+    date: dateOnly(),
     start_time: startTime,
     end_time: end,
     name: faker.commerce.productName(),
@@ -25,3 +25,9 @@ exports.seed = function (knex, Promise) {
 
   return Promise.all(ArrayOfPromises);
 };
+
+function dateOnly() {
+  var date = faker.date.future();
+  date = date.toString().split(' ').splice(0, 4);
+  return date;
+}
