@@ -215,7 +215,8 @@ router.post('/github', function(req, res) {
             var token = createToken(user);
             return res.json({
               token: token,
-              user: user
+              user: user,
+              redirect_uri: req.body.redirectUri
             });
           });
         });
