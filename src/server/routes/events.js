@@ -96,6 +96,22 @@ router.get('/myevents/:id', function (req, res, next) {
   });
 });
 
+//AF route that selects an event and shows what sport it is and where it's located
+router.get('/showEvent/:id', function (req, res, next) {
+  var thisEventID = req.params.id;
+  queries.joinEventsToLocationsAndSports(thisEventID, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'No events found for that ID.'
+      });
+    } else {
+      res.json({
+        events: result
+      });
+    }
+  });
+});
+
 router.post('/register', function (req, res, next) {
   let newRegistration = {
     player_id: req.body.player_id,

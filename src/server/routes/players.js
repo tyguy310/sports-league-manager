@@ -26,7 +26,6 @@ router.post('/', function (req, res, next) {
     availability: req.body.availability || 36,
     gender: req.body.gender || null
   };
-
   queries.signup(accountObject, playerObject, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, there was an issue creating that account. Please try again.';
@@ -39,6 +38,13 @@ router.post('/', function (req, res, next) {
     }
   });
 });
+
+//AF This will be an object or an array of sports IDs that have to be joined to the player. populates players_sports join table
+//
+// let playerSportsObject = {
+//   sports_names: req.body.sports
+// }
+//join
 
 router.get('/:id', function (req, res, next) {
   let playerId = req.params.id;
