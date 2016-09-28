@@ -39,6 +39,23 @@ exports.deleteOne = function (tableName, itemId, callback) {
   });
 };
 
+exports.signup = (accountObject, playerObject, callback) => {
+  knex('accounts')
+  .insert(accountObject)
+  .returning('*')
+  .then((account) => {
+    playerObject.account_id = account[0].id;
+    return knex('players')
+    .insert(playerObject)
+    .then(result => {
+      callback (null, result);
+    })
+    .catch(err => {
+      callback(err);
+    });
+  });
+};
+
 //Allows us to post to any table by creating an object in the route and passing it into this function.
 
 exports.postItem = function (tableName, object, callback) {
