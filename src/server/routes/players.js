@@ -34,7 +34,8 @@ router.post('/', function (req, res, next) {
         error: renderObject
       });
     } else {
-      renderObject.account = result;
+      renderObject = result;
+      console.log(renderObject);
       res.json(renderObject);
     }
   });
