@@ -1,32 +1,41 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 const queries = require('../db/queries');
 
 router.post('/', function (req, res, next) {
   let renderObject = {};
-  let newPlayer = {
+  let password = req.body.password;
+  let salt = bcrypt.genSaltSync(10);
+  let hash = bcrypt.hashSync(password, salt);
+
+  let accountObject = {
+    is_user: req.body.is_user,
+    is_admin: req.body.is_admin
+  };
+
+  let playerObject = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     email: req.body.email,
     profile_picture: req.body.profile_picture || null,
     username: req.body.username,
-    password: req.body.password,
+    password: hash,
     tagline: req.body.tagline || null,
     zip_code: req.body.zip_code,
     availability: req.body.availability || 36,
     gender: req.body.gender || null
   };
-  queries.postItem ('players', newPlayer, function(err, result) {
+
+  queries.signup(accountObject, playerObject, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, there was an issue creating that account. Please try again.';
       res.json({
         error: renderObject
       });
     } else {
-      renderObject.player = result;
-      res.json({
-        player: renderObject
-      });
+      renderObject.account = result;
+      res.json(renderObject);
     }
   });
 });
