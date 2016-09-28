@@ -8,7 +8,7 @@ function eventsSeed(knex) {
     date: dateOnly(),
     start_time: startTime,
     end_time: end,
-    name: 'Sports Game #' + faker.random.number({min:1, max:100}),
+    name: ('Sports Game #' + faker.random.number({min:1, max:900})),
     description: faker.lorem.sentence(),
     locations_id: faker.random.number({min:1, max:50}),
     sports_id: faker.random.number({min:1, max:11})
