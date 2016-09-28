@@ -3,7 +3,7 @@ const faker = require('faker');
 
 function locationsSeed(knex) {
   return knex('locations').insert({
-    location_name: faker.random.locale(),
+    location_name: (faker.random.firstName() + faker.address.city() + 'Field'),
     location_image: faker.image.sports(),
     location_description: faker.lorem.sentence(),
     loc_add_line_1: faker.address.streetAddress(),
