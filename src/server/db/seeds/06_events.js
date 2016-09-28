@@ -8,7 +8,7 @@ function eventsSeed(knex) {
     date: dateOnly(),
     start_time: startTime,
     end_time: end,
-    name: faker.commerce.productName(),
+    name: ('Sports Game #' + faker.random.number({min:1, max:900})),
     description: faker.lorem.sentence(),
     locations_id: faker.random.number({min:1, max:50}),
     sports_id: faker.random.number({min:1, max:11})
@@ -16,7 +16,7 @@ function eventsSeed(knex) {
 }
 
 exports.seed = function (knex, Promise) {
-  const iterationArray = new Array(100);
+  const iterationArray = new Array(40);
 
   var ArrayOfPromises = Array.from(iterationArray)
   .map(() => {
