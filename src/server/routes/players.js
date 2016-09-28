@@ -34,7 +34,6 @@ router.post('/', function (req, res, next) {
       });
     } else {
       renderObject = result;
-      console.log(renderObject);
       res.json(renderObject);
     }
   });

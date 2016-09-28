@@ -1,67 +1,40 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const knex = require('../db/knex');
 const salt = bcrypt.genSaltSync(10);
+const queries = require('../db/queries');
 
-router.get('/login', (req, res, next) => {
-  res.render('users/login');
-});
-
-router.get('/signup', (reqa, res, next) => {
-  res.render('users/signup');
-});
-
-router.post('/signup', (req, res, next) => {
+router.post('/', (req, res, next) => {
+  let results = {};
+  let email = req.body.email;
   let password = req.body.password;
-  let hash = bcrypt.hashSync(password, salt);
-  knex('users')
-  .insert({
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    password: hash
-  })
-  .then((newUser) => {
-    res.redirect('/');
-  })
-  .catch((err) => {
-    res.status(404).send({
-      status: 'Failed',
-      message: err
-    });
-  });
-});
-
-router.post('/login', (req, res, next) => {
-  let userEmail = req.body.email;
-  let password = req.body.password;
-  let msg;
-  if (!userEmail || !password) {
-    let results = {};
+  if (!email || !password) {
     results.message = 'Must enter both username and password';
-    res.render('users/login', results);
+    res.json(results);
   } else {
-    knex('users')
-    .then((users) => {
-      let user = users.filter((user) => user.email === userEmail)[0];
-      if (!user) {
-        let results = {};
-        results.message = 'Incorrect username or password.';
-        res.render('users/login', results);
-      } else {
-        if (bcrypt.compareSync(password, user.password)) {
-          req.session.user = user;
-          res.redirect('/restaurants');
+    queries.login(email, (err, result) => {
+      if (err) {
+        results.message = 'Incorrect something or other.';
+        res.json(results);
+      }
+      else {
+        if (bcrypt.compareSync(password, result[0].password)) {
+          let renderObject = {};
+          queries.joinAccountPlayer(result[0].id, (err, player) => {
+            if (err) {
+              renderObject.message = 'Unable to find ID';
+              res.json(renderObject);
+            }
+            else {
+              renderObject = player;
+              res.json(renderObject);
+            }
+          });
         } else {
-          let results = {};
           results.message = 'Incorrect username or password.';
-          res.render('users/login', results);
+          res.json(results);
         }
       }
-    })
-    .catch((err) => {
-      console.log(err);
     });
   }
 });

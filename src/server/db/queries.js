@@ -26,6 +26,21 @@ exports.getItems = function(tableName, callback, itemId) {
   }
 };
 
+exports.login = (email, callback) => {
+  knex('players')
+  .where('email', email)
+  .then(result => {
+    if (result.length) {
+      callback(null, result);
+    }
+    else {
+      callback(1);
+    }
+  }).catch(err => {
+    callback(err);
+  });
+};
+
 //Deletes a single item from the given table name.
 
 exports.deleteOne = function (tableName, itemId, callback) {
@@ -35,6 +50,19 @@ exports.deleteOne = function (tableName, itemId, callback) {
   .then(result => {
     callback(null, result);
   }).catch(err => {
+    callback(err);
+  });
+};
+
+exports.joinAccountPlayer = (playerId, callback) => {
+  knex('players')
+  .select('first_name', 'last_name', 'email', 'profile_picture', 'username', 'tagline', 'zip_code', 'availability', 'gender', 'is_user', 'is_admin')
+  .join('accounts', 'accounts.id', '=', 'players.account_id')
+  .where('players.id', playerId)
+  .then((result) => {
+    callback (null, result[0]);
+  })
+  .catch(err => {
     callback(err);
   });
 };
