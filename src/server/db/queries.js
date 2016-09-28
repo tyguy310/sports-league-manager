@@ -88,6 +88,20 @@ exports.joinPlayerToTeams = function(playerId, callback) {
   });
 };
 
+//AF take events -> join sports and locations
+exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
+  knex('events')
+  .join('locations', 'locations.id', '=', 'events.locations_id')
+  .join('sports', 'sports.id', '=', 'events.sports_id')
+  .where('events.id', '=', thisEventID)
+  .then(result => {
+    callback(null, result[0]);
+  }).catch(err => {
+    callback(err);
+  });
+};
+// error: "Undefined binding(s) detected when compiling SELECT query: select * from "events" inner join "locations" on "locations"."id" = "events"."locations_id" inner join "sports" on "sports"."id" = "events"."sports_id" where "events"."id" = ?"
+
 exports.joinPlayerToEvents = function(playerId, callback) {
   knex('players_events')
   .select('date', 'start_time', 'end_time', 'name', 'description')
