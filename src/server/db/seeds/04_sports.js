@@ -63,13 +63,3 @@ exports.seed = function (knex, Promise) {
     ]);
   });
 };
-
-//   const iterationArray = new Array(1);
-//
-//   var ArrayOfPromises = Array.from(iterationArray)
-//   .map(() => {
-//     return sportsSeed(knex);
-//   });
-//
-//   return Promise.all(ArrayOfPromises);
-// };

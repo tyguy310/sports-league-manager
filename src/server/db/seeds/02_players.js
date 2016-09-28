@@ -1,10 +1,6 @@
 //done for now
 const faker = require('faker');
 
-function randomZip() {
-
-}
-
 function randomGender() {
   var genderNum = (Math.floor(Math.random() * 2) + 1);
   if (genderNum === 1) {
