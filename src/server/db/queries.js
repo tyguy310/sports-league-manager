@@ -93,13 +93,14 @@ exports.signup = (accountObject, playerObject, callback) => {
 
 exports.playerSports = (playerId, sport_name, callback) => {
   knex('sports')
-  .select('id')
-  .where('name', sport_name)
+  .where('type', sport_name)
+  .first()
   .then(sport_id => {
+    console.log(playerId);
     return knex('players_sports')
     .insert({
       players_id: playerId,
-      sports_id: sport_id
+      sports_id: sport_id.id
     })
     .then(result => {
       callback (null, result);

@@ -6,7 +6,6 @@ const queries = require('../db/queries');
 router.post('/', function (req, res, next) {
   let renderObject = {};
   let password = req.body.password;
-  let sportsArray = req.body.sports;
 
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
@@ -42,24 +41,29 @@ router.post('/', function (req, res, next) {
   });
 });
 
-// router.post('/:id/preferred_sports', (req, res, next) => {
-//   let playerId = req.params.id;
-//   let renderObject = {};
-// });
-//   // function postPlayerSport (sport, id) {
-//   //   queries.playerSports(id, sport, (err, result) => {
-//   //     if (err) {
-//   //       renderObject.message = err.message || 'Sorry, there was an issue adding those sports. Please try again.';
-//   //       res.json({
-//   //         error: renderObject
-//   //       });
-//   //     } else {
-//   //       renderObject = result;
-//   //       res.json(renderObject);
-//   //     }
-//   //   });
-//   // }
-//   // sportsArray.forEach(postPlayerSport(sport, playerId));
+router.post('/:id/preferred_sports', (req, res, next) => {
+  let playerId = req.params.id;
+  let renderObject = {};
+  let sportsArray = [];
+  sportsArray = req.params.sports;
+  // sportsArray.push(req.body.sports);
+
+  function postPlayerSport (sport, id) {
+    queries.playerSports(playerId, sport, (err, result) => {
+      if (err) {
+        renderObject.message = err.message || 'Sorry, there was an issue adding those sports. Please try again.';
+        res.json({
+          error: renderObject
+        });
+      } else {
+        renderObject = result;
+        res.json(renderObject);
+      }
+    });
+  }
+
+  sportsArray.forEach(postPlayerSport);
+});
 
 router.get('/:id', function (req, res, next) {
   let playerId = req.params.id;
