@@ -5,13 +5,13 @@
   const app = require('./app');
   const debug = require('debug')('herman-express:server');
   const http = require('http');
-
+  const socket = require('./sockets');
   const port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
 
   const server = http.createServer(app);
 
-  server.listen(port);
+  socket.attach(server.listen(port));
   server.on('error', onError);
   server.on('listening', onListening);
 
