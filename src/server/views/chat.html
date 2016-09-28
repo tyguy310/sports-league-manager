@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>beerleague chat</title>
+    <link rel="stylesheet" href="/css/chat.css">
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form>
+      <input id="newMessage" autocomplete="off" placeholder="Type here" data-username={{ username }} autofocus/><button id="myButton">Send</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.js" charset="utf-8"></script>
+    <script src="/js/main.js" charset="utf-8"></script>
+  </body>
