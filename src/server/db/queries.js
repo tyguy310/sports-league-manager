@@ -47,8 +47,15 @@ exports.signup = (accountObject, playerObject, callback) => {
     playerObject.account_id = account[0].id;
     return knex('players')
     .insert(playerObject)
-    .then(result => {
-      callback (null, result);
+    .returning('id')
+    .then(newPlayerId => {
+      return knex('players')
+      .select('first_name', 'last_name', 'email', 'profile_picture', 'username', 'tagline', 'zip_code', 'availability', 'gender', 'is_user', 'is_admin')
+      .join('accounts', 'accounts.id', '=', 'players.account_id')
+      .where('players.id', parseInt(newPlayerId))
+      .then((result) => {
+        callback (null, result[0]);
+      });
     })
     .catch(err => {
       callback(err);
