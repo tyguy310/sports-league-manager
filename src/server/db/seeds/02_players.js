@@ -27,7 +27,7 @@ function playersSeed(knex) {
 }
 
 exports.seed = function (knex, Promise) {
-  const iterationArray = new Array(200);
+  const iterationArray = new Array(50);
 
   var ArrayOfPromises = Array.from(iterationArray)
   .map(() => {
