@@ -96,4 +96,22 @@ router.get('/myevents/:id', function (req, res, next) {
   });
 });
 
+router.post('/register', function (req, res, next) {
+  let newRegistration = {
+    player_id: req.body.player_id;
+    event_id: req.body.event_id;
+  };
+  queries.postItem('players_events', newRegistration, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'Sorry, there was an issue registering you for that event.';
+      });
+    } else {
+      res.json({
+        message: 'Thank you for registering!';
+      });
+    }
+  });
+});
+
 module.exports = router;
