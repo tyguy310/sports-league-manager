@@ -59,7 +59,7 @@ exports.joinAccountPlayer = (playerId, callback) => {
   .select('first_name', 'last_name', 'email', 'profile_picture', 'username', 'tagline', 'zip_code', 'availability', 'gender', 'is_user', 'is_admin')
   .join('accounts', 'accounts.id', '=', 'players.account_id')
   .where('players.id', playerId)
-  .then((result) => {
+  .then(result => {
     callback (null, result[0]);
   })
   .catch(err => {
@@ -78,16 +78,36 @@ exports.signup = (accountObject, playerObject, callback) => {
     .returning('id')
     .then(newPlayerId => {
       return knex('players')
-      .select('first_name', 'last_name', 'email', 'profile_picture', 'username', 'tagline', 'zip_code', 'availability', 'gender', 'is_user', 'is_admin')
+      .select('players.id', 'first_name', 'last_name', 'email', 'profile_picture', 'username', 'tagline', 'zip_code', 'availability', 'gender', 'is_user', 'is_admin')
       .join('accounts', 'accounts.id', '=', 'players.account_id')
       .where('players.id', parseInt(newPlayerId))
-      .then((result) => {
+      .then(result => {
         callback (null, result[0]);
       });
     })
     .catch(err => {
       callback(err);
     });
+  });
+};
+
+exports.playerSports = (playerId, sport_name, callback) => {
+  knex('sports')
+  .where('type', sport_name)
+  .first()
+  .then(sport_id => {
+    console.log(playerId);
+    return knex('players_sports')
+    .insert({
+      players_id: playerId,
+      sports_id: sport_id.id
+    })
+    .then(result => {
+      callback (null, result);
+    });
+  })
+  .catch(err => {
+    callback(err);
   });
 };
 
@@ -128,7 +148,6 @@ exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
     callback(err);
   });
 };
-// error: "Undefined binding(s) detected when compiling SELECT query: select * from "events" inner join "locations" on "locations"."id" = "events"."locations_id" inner join "sports" on "sports"."id" = "events"."sports_id" where "events"."id" = ?"
 
 exports.joinPlayerToEvents = function(playerId, callback) {
   knex('players_events')

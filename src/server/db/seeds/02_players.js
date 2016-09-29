@@ -1,10 +1,6 @@
 //done for now
 const faker = require('faker');
 
-function randomZip() {
-
-}
-
 function randomGender() {
   var genderNum = (Math.floor(Math.random() * 2) + 1);
   if (genderNum === 1) {
@@ -31,7 +27,7 @@ function playersSeed(knex) {
 }
 
 exports.seed = function (knex, Promise) {
-  const iterationArray = new Array(200);
+  const iterationArray = new Array(50);
 
   var ArrayOfPromises = Array.from(iterationArray)
   .map(() => {

@@ -6,6 +6,7 @@ const queries = require('../db/queries');
 router.post('/', function (req, res, next) {
   let renderObject = {};
   let password = req.body.password;
+
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
 
@@ -26,6 +27,7 @@ router.post('/', function (req, res, next) {
     availability: req.body.availability || 36,
     gender: req.body.gender || null
   };
+
   queries.signup(accountObject, playerObject, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, there was an issue creating that account. Please try again.';
@@ -39,12 +41,29 @@ router.post('/', function (req, res, next) {
   });
 });
 
-//AF This will be an object or an array of sports IDs that have to be joined to the player. populates players_sports join table
-//
-// let playerSportsObject = {
-//   sports_names: req.body.sports
-// }
-//join
+router.post('/:id/preferred_sports', (req, res, next) => {
+  let playerId = req.params.id;
+  let renderObject = {};
+  let sportsArray = [];
+  sportsArray = req.params.sports;
+  // sportsArray.push(req.body.sports);
+
+  function postPlayerSport (sport, id) {
+    queries.playerSports(playerId, sport, (err, result) => {
+      if (err) {
+        renderObject.message = err.message || 'Sorry, there was an issue adding those sports. Please try again.';
+        res.json({
+          error: renderObject
+        });
+      } else {
+        renderObject = result;
+        res.json(renderObject);
+      }
+    });
+  }
+
+  sportsArray.forEach(postPlayerSport);
+});
 
 router.get('/:id', function (req, res, next) {
   let playerId = req.params.id;
@@ -62,6 +81,22 @@ router.get('/:id', function (req, res, next) {
       });
     }
   }, playerId);
+});
+router.get('/', function (req, res, next) {
+  let renderObject = {};
+  queries.getItems('players', function(err, result) {
+    if (err) {
+      renderObject.message = err.message || 'We were unable to find that profile. Please try again.';
+      res.json({
+        error: renderObject
+      });
+    } else {
+      renderObject.player = result;
+      res.json({
+        player: renderObject
+      });
+    }
+  });
 });
 
 router.put('/:id', function (req, res, next) {
