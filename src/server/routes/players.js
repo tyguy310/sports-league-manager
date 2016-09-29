@@ -44,9 +44,8 @@ router.post('/', function (req, res, next) {
 router.post('/:id/preferred_sports', (req, res, next) => {
   let playerId = req.params.id;
   let renderObject = {};
-  let sportsArray = [];
-  sportsArray = req.params.sports;
-  // sportsArray.push(req.body.sports);
+  let sports = req.body.sports;
+  let sportsArray = sports.split(',');
 
   function postPlayerSport (sport, id) {
     queries.playerSports(playerId, sport, (err, result) => {

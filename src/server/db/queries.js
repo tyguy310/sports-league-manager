@@ -96,7 +96,6 @@ exports.playerSports = (playerId, sport_name, callback) => {
   .where('type', sport_name)
   .first()
   .then(sport_id => {
-    console.log(playerId);
     return knex('players_sports')
     .insert({
       players_id: playerId,
