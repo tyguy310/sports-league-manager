@@ -54,10 +54,16 @@ exports.verify = (req, res, next) => {
   }
 };
 
-exports.login = (email, username, callback) => {
-  knex('players')
-  .where('email', email)
-  // .orWhere('username', username)
+exports.login = (eMail, user_name, callback) => {
+  var where;
+  if (eMail) {
+    where = {email: eMail};
+  }
+  else {
+    where = {username: user_name};
+  }
+
+  knex('players').where(where)
   .then(result => {
     if (result.length) {
       callback(null, result);
