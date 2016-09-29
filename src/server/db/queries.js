@@ -184,28 +184,32 @@ exports.joinPlayerToSports = function(playerId, callback) {
   });
 };
 
-//AF take events -> join sports and locations
-exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
-  knex('events')
-  .join('locations', 'locations.id', '=', 'events.locations_id')
-  .join('sports', 'sports.id', '=', 'events.sports_id')
-  .where('events.id', '=', thisEventID)
-  .then(result => {
-    callback(null, result);
-  }).catch(err => {
-    callback(err);
-  });
-};
-
-exports.allEventsSuperTable = (callback) => {
-  knex('events')
-  .join('locations', 'locations.id', '=', 'events.locations_id')
-  .join('sports', 'sports.id', '=', 'events.sports_id')
-  .then(result => {
-    callback(null, result);
-  }).catch(err => {
-    callback(err);
-  });
+exports.getEventsSuperTable = (callback, eventId) => {
+  if (eventId) {
+    knex('events')
+    .join('locations', 'locations.id', '=', 'events.locations_id')
+    .join('sports', 'sports.id', '=', 'events.sports_id')
+    .where('events.id', '=', eventId)
+    .then(result => {
+      if (result.length) {
+        callback(null, result);
+      }
+      else {
+        callback(1);
+      }
+    }).catch(err => {
+      callback(err);
+    });
+  } else {
+    knex('events')
+    .join('locations', 'locations.id', '=', 'events.locations_id')
+    .join('sports', 'sports.id', '=', 'events.sports_id')
+    .then(result => {
+      callback(null, result);
+    }).catch(err => {
+      callback(err);
+    });
+  }
 };
 
 exports.joinPlayerToEvents = function(playerId, callback) {
