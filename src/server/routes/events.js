@@ -3,9 +3,9 @@ const router = express.Router();
 const queries = require('../db/queries');
 
 router.get('/', function (req, res, next) {
-  console.log(req.headers);
+  // console.log(req.headers);
   let renderObject = {};
-  queries.getItems('events', function(err, result) {
+  queries.allEventsSuperTable(function(err, result) {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue loading all of our events. Please try again.';
       res.json({

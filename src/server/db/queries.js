@@ -197,6 +197,17 @@ exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
   });
 };
 
+exports.allEventsSuperTable = (callback) => {
+  knex('events')
+  .join('locations', 'locations.id', '=', 'events.locations_id')
+  .join('sports', 'sports.id', '=', 'events.sports_id')
+  .then(result => {
+    callback(null, result);
+  }).catch(err => {
+    callback(err);
+  });
+};
+
 exports.joinPlayerToEvents = function(playerId, callback) {
   knex('players_events')
   .select('date', 'start_time', 'end_time', 'name', 'description')
