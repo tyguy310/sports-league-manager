@@ -26,9 +26,36 @@ exports.getItems = function(tableName, callback, itemId) {
   }
 };
 
-exports.login = (email, callback) => {
+// place queries.verify in every route that requires
+// authorization. eg router.get('/', queries.verify, callback)
+exports.verify = (req, res, next) => {
+  var err = new Error ('Wrong Token or ID');
+  if (req.headers.auth_token === req.params.id) {
+    var nextvariable;
+    knex('players')
+    .where('players.id', req.headers.auth_token)
+    .then(result => {
+      if (result.length) {
+        nextvariable = next();
+        return result;
+      }
+      else {
+        nextvariable = next(err);
+      }
+    }).catch(err => {
+      nextvariable = next(err);
+    });
+    return nextvariable;
+  }
+  else {
+    return next(err);
+  }
+};
+
+exports.login = (email, username, callback) => {
   knex('players')
   .where('email', email)
+  // .orWhere('username', username)
   .then(result => {
     if (result.length) {
       callback(null, result);

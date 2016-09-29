@@ -7,12 +7,13 @@ const queries = require('../db/queries');
 router.post('/', (req, res, next) => {
   let results = {};
   let email = req.body.email;
+  let username = req.body.username;
   let password = req.body.password;
-  if (!email || !password) {
-    results.message = 'Must enter both username and password';
+  if ((!email && !password) || (!username && !password)) {
+    results.message = 'Must enter username or email and password';
     res.json(results);
   } else {
-    queries.login(email, (err, result) => {
+    queries.login(email, username, (err, result) => {
       if (err) {
         results.message = 'Incorrect something or other.';
         res.json(results);
