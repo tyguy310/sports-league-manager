@@ -132,4 +132,20 @@ router.post('/register', function (req, res, next) {
   });
 });
 
+//get the weather at an event from the event's zip code
+router.get('/weather/:zip', function (req, res, next) {
+  let zip = req.params.zip;
+  queries.getWeather(zip, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'Something went wrong while we were fetching the weather.'
+      });
+    } else {
+      res.json({
+        weather: result
+      });
+    }
+  });
+});
+
 module.exports = router;

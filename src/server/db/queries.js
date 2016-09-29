@@ -1,4 +1,6 @@
+/* globals $ */
 const knex = require('./knex');
+const request = require('request');
 
 // If no itemId is provided, function gets all items from given table. Otherwise it gets only the one that matches that id.
 
@@ -195,5 +197,17 @@ exports.updateOne = function(tableName, itemId, updateObject, callback) {
     });
   }).catch(err=> {
     callback(err);
+  });
+};
+
+//feed this function a zip code to pull the weather at that location
+exports.getWeather = function(zip, callback) {
+  const WEATHER_URL = 'https://api.wunderground.com/api/903be07b671ce816/conditions/q/' + zip + '.json';
+  request(WEATHER_URL, function(error, response, result) {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, result);
+    }
   });
 };
