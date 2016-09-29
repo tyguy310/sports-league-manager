@@ -36,7 +36,9 @@ router.post('/', function (req, res, next) {
       });
     } else {
       renderObject = result;
-      res.json(renderObject);
+      res.json({
+        newPlayer: renderObject
+      });
     }
   });
 });
