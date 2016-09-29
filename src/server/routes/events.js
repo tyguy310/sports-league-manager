@@ -52,6 +52,10 @@ router.get('/locations', function (req, res, next) {
   });
 });
 
+function map (line_1, city, state, zip) {
+  return encodeURI(`${line_1}, ${city}, ${state}, ${zip}`);
+}
+
 router.get('/super_table/:id', function (req, res, next) {
   let renderObject = {};
   let eventId = req.params.id;
@@ -62,10 +66,14 @@ router.get('/super_table/:id', function (req, res, next) {
         error: renderObject
       });
     } else {
+      const address = result[0].loc_add_line_1;
+      const city = result[0].loc_add_city;
+      const state = result[0].loc_add_state;
+      const zip = result[0].loc_add_zip;
       renderObject.event = result;
-      res.json({
-        event: result
-      });
+      renderObject.event[0].mapURL = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD3nHjd0_RGDNdjaWEqsfJpcNn7WD3osic&q=${map(address, city, state, zip)}`;
+      console.log(renderObject);
+      res.json(renderObject);
     }
   }, eventId);
 });
