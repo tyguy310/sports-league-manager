@@ -124,7 +124,7 @@ exports.postItem = function (tableName, object, callback) {
 
 exports.joinPlayerToTeams = function(playerId, callback) {
   knex('players_teams')
-  .select('name', 'image', 'zip', 'teams.gender', 'coed', 'type')
+  .select('name', 'sports.image as sportImage', 'teams.image as teamImage', 'zip', 'teams.gender', 'coed', 'type')
   .join('players', 'players.id', '=', 'players_teams.players_id')
   .join('teams', 'teams.id', '=', 'players_teams.teams_id')
   .join('sports', 'teams.sports_id', '=', 'sports.id')
