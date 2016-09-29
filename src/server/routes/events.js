@@ -4,6 +4,24 @@ const queries = require('../db/queries');
 
 router.get('/', function (req, res, next) {
   let renderObject = {};
+  queries.getItems('events', function(err, result) {
+    if (err) {
+      renderObject.message = err.message || 'Sorry, we had an issue loading all of our events. Please try again.';
+      res.json({
+        error: renderObject
+      });
+    } else {
+      renderObject.events = result;
+      res.json({
+        events: renderObject,
+        test: req.headers.Auth_Token
+      });
+    }
+  });
+});
+
+router.get('/super_table', function (req, res, next) {
+  let renderObject = {};
   queries.getEventsSuperTable(function(err, result) {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue loading all of our events. Please try again.';
@@ -34,7 +52,7 @@ router.get('/locations', function (req, res, next) {
   });
 });
 
-router.get('/:id', function (req, res, next) {
+router.get('/super_table/:id', function (req, res, next) {
   let renderObject = {};
   let eventId = req.params.id;
   queries.getEventsSuperTable((err, result) => {
@@ -50,6 +68,24 @@ router.get('/:id', function (req, res, next) {
       });
     }
   }, eventId);
+});
+
+router.get('/:id', function (req, res, next) {
+  let renderObject = {};
+  let itemId = req.params.id;
+  queries.getItems('events', (err, result) => {
+    if (err) {
+      renderObject.message = err.message || 'Sorry, we had an issue finding that event. Please try again.';
+      res.json({
+        error: renderObject
+      });
+    } else {
+      renderObject.event = result;
+      res.json({
+        event: result
+      });
+    }
+  }, itemId);
 });
 
 router.post('/', (req, res, next) => {
