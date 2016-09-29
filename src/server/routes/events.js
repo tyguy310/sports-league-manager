@@ -25,7 +25,7 @@ router.get('/locations', function (req, res, next) {
   queries.getItems('locations', function (err, result) {
     if (err) {
       res.json({
-        error: err.message || 'There was an issue retrieving all locations.';
+        error: err.message || 'There was an issue retrieving all locations.'
       });
     } else {
       res.json({
