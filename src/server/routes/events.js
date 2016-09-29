@@ -3,9 +3,8 @@ const router = express.Router();
 const queries = require('../db/queries');
 
 router.get('/', function (req, res, next) {
-  // console.log(req.headers);
   let renderObject = {};
-  queries.allEventsSuperTable(function(err, result) {
+  queries.getEventsSuperTable(function(err, result) {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue loading all of our events. Please try again.';
       res.json({
@@ -37,8 +36,8 @@ router.get('/locations', function (req, res, next) {
 
 router.get('/:id', function (req, res, next) {
   let renderObject = {};
-  let itemId = req.params.id;
-  queries.getItems('events', function (err, result) {
+  let eventId = req.params.id;
+  queries.getEventsSuperTable((err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue finding that event. Please try again.';
       res.json({
@@ -47,10 +46,10 @@ router.get('/:id', function (req, res, next) {
     } else {
       renderObject.event = result;
       res.json({
-        event: renderObject
+        event: result
       });
     }
-  }, itemId);
+  }, eventId);
 });
 
 router.post('/', (req, res, next) => {
@@ -103,22 +102,6 @@ router.get('/myevents/:id', function (req, res, next) {
     if (err) {
       res.json({
         error: err.message || 'No events found for that player.'
-      });
-    } else {
-      res.json({
-        events: result
-      });
-    }
-  });
-});
-
-//AF route that selects an event and shows what sport it is and where it's located
-router.get('/showEvent/:id', function (req, res, next) {
-  var thisEventID = req.params.id;
-  queries.joinEventsToLocationsAndSports(thisEventID, function (err, result) {
-    if (err) {
-      res.json({
-        error: err.message || 'No events found for that ID.'
       });
     } else {
       res.json({
