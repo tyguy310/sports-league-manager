@@ -3,9 +3,9 @@ const router = express.Router();
 const queries = require('../db/queries');
 
 router.get('/', function (req, res, next) {
-  console.log(req.headers);
+  // console.log(req.headers);
   let renderObject = {};
-  queries.getItems('events', function(err, result) {
+  queries.allEventsSuperTable(function(err, result) {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue loading all of our events. Please try again.';
       res.json({
@@ -127,6 +127,22 @@ router.post('/register', function (req, res, next) {
     } else {
       res.json({
         message: 'Thank you for registering!'
+      });
+    }
+  });
+});
+
+//get the weather at an event from the event's zip code
+router.get('/weather/:zip', function (req, res, next) {
+  let zip = req.params.zip;
+  queries.getWeather(zip, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'Something went wrong while we were fetching the weather.'
+      });
+    } else {
+      res.json({
+        weather: result
       });
     }
   });

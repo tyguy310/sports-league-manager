@@ -1,4 +1,6 @@
+/* globals $ */
 const knex = require('./knex');
+const request = require('request');
 
 // If no itemId is provided, function gets all items from given table. Otherwise it gets only the one that matches that id.
 
@@ -26,9 +28,42 @@ exports.getItems = function(tableName, callback, itemId) {
   }
 };
 
-exports.login = (email, callback) => {
-  knex('players')
-  .where('email', email)
+// place queries.verify in every route that requires
+// authorization. eg router.get('/', queries.verify, callback)
+exports.verify = (req, res, next) => {
+  var err = new Error ('Wrong Token or ID');
+  if (req.headers.auth_token === req.params.id) {
+    var nextvariable;
+    knex('players')
+    .where('players.id', req.headers.auth_token)
+    .then(result => {
+      if (result.length) {
+        nextvariable = next();
+        return result;
+      }
+      else {
+        nextvariable = next(err);
+      }
+    }).catch(err => {
+      nextvariable = next(err);
+    });
+    return nextvariable;
+  }
+  else {
+    return next(err);
+  }
+};
+
+exports.login = (eMail, user_name, callback) => {
+  var where;
+  if (eMail) {
+    where = {email: eMail};
+  }
+  else {
+    where = {username: user_name};
+  }
+
+  knex('players').where(where)
   .then(result => {
     if (result.length) {
       callback(null, result);
@@ -162,6 +197,17 @@ exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
   });
 };
 
+exports.allEventsSuperTable = (callback) => {
+  knex('events')
+  .join('locations', 'locations.id', '=', 'events.locations_id')
+  .join('sports', 'sports.id', '=', 'events.sports_id')
+  .then(result => {
+    callback(null, result);
+  }).catch(err => {
+    callback(err);
+  });
+};
+
 exports.joinPlayerToEvents = function(playerId, callback) {
   knex('players_events')
   .select('date', 'start_time', 'end_time', 'name', 'description')
@@ -195,5 +241,17 @@ exports.updateOne = function(tableName, itemId, updateObject, callback) {
     });
   }).catch(err=> {
     callback(err);
+  });
+};
+
+//feed this function a zip code to pull the weather at that location
+exports.getWeather = function(zip, callback) {
+  const WEATHER_URL = 'https://api.wunderground.com/api/903be07b671ce816/conditions/q/' + zip + '.json';
+  request(WEATHER_URL, function(error, response, result) {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, result);
+    }
   });
 };

@@ -11,7 +11,6 @@
     const sportRoutes = require('../routes/sports');
     const teamRoutes = require('../routes/teams');
     const login = require('../routes/login');
-    const facebook = require('../routes/logintest');
     const chatRoutes = require('../routes/chat');
 
     // *** register routes *** //
@@ -21,7 +20,6 @@
     app.use('/sports', sportRoutes);
     app.use('/login', login);
     app.use('/teams', teamRoutes);
-    app.use('/logintest', facebook);
     app.use('/chat', chatRoutes);
   };
 
