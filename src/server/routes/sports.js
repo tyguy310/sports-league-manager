@@ -11,7 +11,8 @@ router.get('/', function (req, res, next) {
     } else {
       res.json({
         // sports: result,
-        test: req.headers
+        test: req.headers,
+        test: req.headers.auth_token
       });
     }
   });
