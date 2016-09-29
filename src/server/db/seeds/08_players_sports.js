@@ -1,6 +1,6 @@
 
 function playersSportsSeed(knex) {
-  return knex('players_teams').insert({
+  return knex('players_sports').insert({
     //  Insert seed data here
   });
 }
