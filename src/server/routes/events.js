@@ -3,6 +3,7 @@ const router = express.Router();
 const queries = require('../db/queries');
 
 router.get('/', function (req, res, next) {
+  console.log(req.headers);
   let renderObject = {};
   queries.getItems('events', function(err, result) {
     if (err) {
@@ -13,7 +14,8 @@ router.get('/', function (req, res, next) {
     } else {
       renderObject.events = result;
       res.json({
-        events: renderObject
+        events: renderObject,
+        test: req.headers.Auth_Token
       });
     }
   });

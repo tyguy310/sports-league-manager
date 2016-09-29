@@ -10,7 +10,9 @@ router.get('/', function (req, res, next) {
       });
     } else {
       res.json({
-        sports: result
+        // sports: result,
+        test: req.headers,
+        test_token: req.headers.auth_token
       });
     }
   });
