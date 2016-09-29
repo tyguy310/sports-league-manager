@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
       res.json({
         // sports: result,
         test: req.headers,
-        test: req.headers.auth_token
+        test_token: req.headers.auth_token
       });
     }
   });
