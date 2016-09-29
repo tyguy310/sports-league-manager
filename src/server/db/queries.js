@@ -130,7 +130,7 @@ exports.joinPlayerToTeams = function(playerId, callback) {
   .join('sports', 'teams.sports_id', '=', 'sports.id')
   .where('players.id', '=', playerId)
   .then(result => {
-    callback(null, result[0]);
+    callback(null, result);
   }).catch(err => {
     callback(err);
   });
@@ -143,7 +143,7 @@ exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
   .join('sports', 'sports.id', '=', 'events.sports_id')
   .where('events.id', '=', thisEventID)
   .then(result => {
-    callback(null, result[0]);
+    callback(null, result);
   }).catch(err => {
     callback(err);
   });
@@ -156,7 +156,7 @@ exports.joinPlayerToEvents = function(playerId, callback) {
   .join('events', 'events.id', '=', 'players_events.event_id')
   .where('players.id', '=', playerId)
   .then(result => {
-    callback(null, result[0]);
+    callback(null, result);
   }).catch(err => {
     callback(err);
   });
