@@ -21,6 +21,20 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.get('/locations', function (req, res, next) {
+  queries.getItems('locations', function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'There was an issue retrieving all locations.';
+      });
+    } else {
+      res.json({
+        locations: result
+      });
+    }
+  });
+});
+
 router.get('/:id', function (req, res, next) {
   let renderObject = {};
   let itemId = req.params.id;
