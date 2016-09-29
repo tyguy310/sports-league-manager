@@ -33,4 +33,19 @@ router.get('/:id', function (req, res, next) {
   }, sportId);
 });
 
+router.get('/mysports/:id', function (req, res, next) {
+  let playerId = req.params.id;
+  queries.joinPlayerToSports(playerId, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'No sports found for that player'
+      });
+    } else {
+      res.json({
+        sports: result
+      });
+    }
+  });
+});
+
 module.exports = router;

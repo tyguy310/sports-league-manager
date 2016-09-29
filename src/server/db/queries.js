@@ -136,6 +136,19 @@ exports.joinPlayerToTeams = function(playerId, callback) {
   });
 };
 
+exports.joinPlayerToSports = function(playerId, callback) {
+  knex('players_sports')
+  .select('type')
+  .join('players', 'players.id', '=', 'players_sports.players_id')
+  .join('sports', 'sports.id', '=', 'players_sports.sports_id')
+  .where('players.id', '=', playerId)
+  .then(result => {
+    callback(null, result);
+  }).catch(err => {
+    callback(err);
+  });
+};
+
 //AF take events -> join sports and locations
 exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
   knex('events')
