@@ -72,7 +72,6 @@ router.get('/super_table/:id', function (req, res, next) {
       const zip = result[0].loc_add_zip;
       renderObject.event = result;
       renderObject.event[0].mapURL = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD3nHjd0_RGDNdjaWEqsfJpcNn7WD3osic&q=${map(address, city, state, zip)}`;
-      console.log(renderObject);
       res.json(renderObject);
     }
   }, eventId);
