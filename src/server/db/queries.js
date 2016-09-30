@@ -186,10 +186,12 @@ exports.joinPlayerToSports = function(playerId, callback) {
 
 exports.getEventsSuperTable = (callback, eventId) => {
   if (eventId) {
-    knex('events')
-    .join('locations', 'locations.id', '=', 'events.locations_id')
-    .join('sports', 'sports.id', '=', 'events.sports_id')
+    knex('sports')
+    .select('*', 'events.id as eventId')
+    .join('events', 'events.sports_id', 'sports.id')
+    .join('locations', 'locations.id', 'events.locations_id')
     .where('events.id', '=', eventId)
+    .returning('events.id')
     .then(result => {
       if (result.length) {
         callback(null, result);
@@ -202,8 +204,8 @@ exports.getEventsSuperTable = (callback, eventId) => {
     });
   } else {
     knex('events')
-    .join('locations', 'locations.id', '=', 'events.locations_id')
-    .join('sports', 'sports.id', '=', 'events.sports_id')
+    .join('locations', 'locations.id', 'events.locations_id')
+    .join('sports', 'sports.id', 'events.sports_id')
     .then(result => {
       callback(null, result);
     }).catch(err => {
