@@ -1,8 +1,5 @@
-/* globals $ */
 const knex = require('./knex');
 const request = require('request');
-
-// If no itemId is provided, function gets all items from given table. Otherwise it gets only the one that matches that id.
 
 exports.getItems = function(tableName, callback, itemId) {
   if (itemId) {
@@ -18,6 +15,14 @@ exports.getItems = function(tableName, callback, itemId) {
     }).catch(err => {
       callback(err);
     });
+  } else if (tableName === 'events') {
+    knex(tableName)
+    .orderBy('date', 'asc')
+    .then(results => {
+      callback(null, results);
+    }).catch(err => {
+      callback(err);
+    });
   } else {
     knex(tableName)
     .then(results => {
@@ -28,8 +33,6 @@ exports.getItems = function(tableName, callback, itemId) {
   }
 };
 
-// place queries.verify in every route that requires
-// authorization. eg router.get('/', queries.verify, callback)
 exports.verify = (req, res, next) => {
   var err = new Error ('Wrong Token or ID');
   if (req.headers.auth_token === req.params.id) {
@@ -75,8 +78,6 @@ exports.login = (eMail, user_name, callback) => {
     callback(err);
   });
 };
-
-//Deletes a single item from the given table name.
 
 exports.deleteOne = function (tableName, itemId, callback) {
   knex(tableName)
@@ -144,8 +145,6 @@ exports.playerSports = (playerId, sport_name, callback) => {
     callback(err);
   });
 };
-
-//Allows us to post to any table by creating an object in the route and passing it into this function.
 
 exports.postItem = function (tableName, object, callback) {
   knex(tableName)
@@ -251,7 +250,6 @@ exports.updateOne = function(tableName, itemId, updateObject, callback) {
   });
 };
 
-//feed this function a zip code to pull the weather at that location
 exports.getWeather = function(zip, callback) {
   const WEATHER_URL = 'https://api.wunderground.com/api/903be07b671ce816/conditions/q/' + zip + '.json';
   request(WEATHER_URL, function(error, response, result) {
