@@ -10,9 +10,8 @@ router.get('/:id', function (req, res, next) {
         error: err.message || 'An issue occurred while connecting to chat.'
       });
     } else {
-      let username = result[0].username;
       res.json({
-        username: username
+        username: result[0].username
       });
     }
   }, userId);

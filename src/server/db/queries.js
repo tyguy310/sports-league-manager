@@ -214,6 +214,7 @@ exports.getEventsSuperTable = (callback, eventId) => {
 
 exports.joinPlayerToEvents = function(playerId, callback) {
   knex('players_events')
+  .orderBy('date', 'asc')
   .select('date', 'start_time', 'end_time', 'name', 'description')
   .join('players', 'players.id', '=', 'players_events.player_id')
   .join('events', 'events.id', '=', 'players_events.event_id')
