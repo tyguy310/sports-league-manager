@@ -32,7 +32,7 @@ exports.seed = function (knex, Promise) {
       knex('locations').insert({
         location_name: 'Columbine High School Field',
         location_image: 'http://vignette4.wikia.nocookie.net/columbine/images/e/e4/Columbine_high_school_on_day_of_attack.jpg/revision/latest?cb=20101111213727',
-        location_description: 'Forget about the kids who died here and come play some badminton! Public fields available on evenings and weekends, as well as all summer.',
+        location_description: 'Public fields available on evenings and weekends, as well as all summer.',
         loc_add_line_1: '6201 S Pierce St.',
         loc_add_city: 'Littleton',
         loc_add_state: 'Colorado',
