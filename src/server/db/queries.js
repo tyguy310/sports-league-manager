@@ -28,9 +28,42 @@ exports.getItems = function(tableName, callback, itemId) {
   }
 };
 
-exports.login = (email, callback) => {
-  knex('players')
-  .where('email', email)
+// place queries.verify in every route that requires
+// authorization. eg router.get('/', queries.verify, callback)
+exports.verify = (req, res, next) => {
+  var err = new Error ('Wrong Token or ID');
+  if (req.headers.auth_token === req.params.id) {
+    var nextvariable;
+    knex('players')
+    .where('players.id', req.headers.auth_token)
+    .then(result => {
+      if (result.length) {
+        nextvariable = next();
+        return result;
+      }
+      else {
+        nextvariable = next(err);
+      }
+    }).catch(err => {
+      nextvariable = next(err);
+    });
+    return nextvariable;
+  }
+  else {
+    return next(err);
+  }
+};
+
+exports.login = (eMail, user_name, callback) => {
+  var where;
+  if (eMail) {
+    where = {email: eMail};
+  }
+  else {
+    where = {username: user_name};
+  }
+
+  knex('players').where(where)
   .then(result => {
     if (result.length) {
       callback(null, result);
@@ -151,17 +184,32 @@ exports.joinPlayerToSports = function(playerId, callback) {
   });
 };
 
-//AF take events -> join sports and locations
-exports.joinEventsToLocationsAndSports = function (thisEventID, callback) {
-  knex('events')
-  .join('locations', 'locations.id', '=', 'events.locations_id')
-  .join('sports', 'sports.id', '=', 'events.sports_id')
-  .where('events.id', '=', thisEventID)
-  .then(result => {
-    callback(null, result);
-  }).catch(err => {
-    callback(err);
-  });
+exports.getEventsSuperTable = (callback, eventId) => {
+  if (eventId) {
+    knex('events')
+    .join('locations', 'locations.id', '=', 'events.locations_id')
+    .join('sports', 'sports.id', '=', 'events.sports_id')
+    .where('events.id', '=', eventId)
+    .then(result => {
+      if (result.length) {
+        callback(null, result);
+      }
+      else {
+        callback(1);
+      }
+    }).catch(err => {
+      callback(err);
+    });
+  } else {
+    knex('events')
+    .join('locations', 'locations.id', '=', 'events.locations_id')
+    .join('sports', 'sports.id', '=', 'events.sports_id')
+    .then(result => {
+      callback(null, result);
+    }).catch(err => {
+      callback(err);
+    });
+  }
 };
 
 exports.joinPlayerToEvents = function(playerId, callback) {
