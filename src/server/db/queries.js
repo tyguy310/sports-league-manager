@@ -190,7 +190,6 @@ exports.getEventsSuperTable = (callback, eventId) => {
     .join('events', 'events.sports_id', 'sports.id')
     .join('locations', 'locations.id', 'events.locations_id')
     .where('events.id', '=', eventId)
-    .returning('events.id')
     .then(result => {
       if (result.length) {
         callback(null, result);
@@ -203,6 +202,7 @@ exports.getEventsSuperTable = (callback, eventId) => {
     });
   } else {
     knex('events')
+    .select('*', 'events.id as eventId')
     .join('locations', 'locations.id', 'events.locations_id')
     .join('sports', 'sports.id', 'events.sports_id')
     .then(result => {
