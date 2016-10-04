@@ -10,6 +10,7 @@
     const playerRoutes = require('../routes/players');
     const sportRoutes = require('../routes/sports');
     const teamRoutes = require('../routes/teams');
+    const ladderRoutes = require('../routes/ladders');
     const login = require('../routes/login');
     const chatRoutes = require('../routes/chat');
 
@@ -20,6 +21,7 @@
     app.use('/sports', sportRoutes);
     app.use('/login', login);
     app.use('/teams', teamRoutes);
+    app.use('/ladders', ladderRoutes);
     app.use('/chat', chatRoutes);
   };
 

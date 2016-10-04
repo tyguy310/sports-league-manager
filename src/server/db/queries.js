@@ -227,6 +227,17 @@ exports.joinPlayerToEvents = function(playerId, callback) {
   });
 };
 
+exports.joinPlayersToLadder = (ladderName, callback) => {
+  knex(ladderName)
+  .select('*', ` ${ladderName}.id as rank`)
+  .join('players', 'players.id', `${ladderName}.player_id`)
+  .then(result => {
+    callback(null, result);
+  }).catch(err => {
+    callback(err);
+  });
+};
+
 exports.updateOne = function(tableName, itemId, updateObject, callback) {
   let updatedPlayer = {};
   knex(tableName)
@@ -249,6 +260,29 @@ exports.updateOne = function(tableName, itemId, updateObject, callback) {
     callback(err);
   });
 };
+
+// exports.ladderUpdate = (tableName, playerOneId, playertwoId, callback) => {
+//   let updatedPlayer = {};
+//   knex(tableName)
+//   .where('id', playerOneId)
+//   .then(player => {
+//     for (let key in updateObject) {
+//       if (updateObject[key] === null) {
+//         updatedPlayer[key] = player[key];
+//       } else {
+//         updatedPlayer[key] = updateObject[key];
+//       }
+//     }
+//     knex(tableName)
+//     .where('id', itemId)
+//     .update(updatedPlayer)
+//     .then(result => {
+//       callback(null, result);
+//     });
+//   }).catch(err=> {
+//     callback(err);
+//   });
+// };
 
 exports.getWeather = function(zip, callback) {
   const WEATHER_URL = 'https://api.wunderground.com/api/903be07b671ce816/conditions/q/' + zip + '.json';
