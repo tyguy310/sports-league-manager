@@ -82,9 +82,6 @@ router.put('/ladder/:ladder_name/:winner_id/:loser_id', (req, res, next) => {
   });
 });
 
-// delete route - query needs to get rank of targeted deletion, delete, then
-// update all lower ranked players up by 1 rank.
-
 router.delete('/ladder/:ladder_name/:player_id', (req, res, next) => {
   const ladderName = req.params.ladder_name;
   const playerId = req.params.player_id;

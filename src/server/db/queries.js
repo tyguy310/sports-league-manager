@@ -1,7 +1,7 @@
 const knex = require('./knex');
 const request = require('request');
 
-exports.getItems = function(tableName, callback, itemId) {
+exports.getItems = (tableName, callback, itemId) => {
   if (itemId) {
     knex(tableName)
     .where('id', itemId)
@@ -79,7 +79,7 @@ exports.login = (eMail, user_name, callback) => {
   });
 };
 
-exports.deleteOne = function (tableName, itemId, callback) {
+exports.deleteOne = (tableName, itemId, callback) => {
   knex(tableName)
   .del()
   .where('id', itemId)
@@ -146,7 +146,7 @@ exports.playerSports = (playerId, sport_name, callback) => {
   });
 };
 
-exports.postItem = function (tableName, object, callback) {
+exports.postItem = (tableName, object, callback) => {
   knex(tableName)
   .insert(object)
   .then(result => {
@@ -172,7 +172,7 @@ exports.ladderPost = (ladderName, participantId, callback) => {
   });
 };
 
-exports.joinPlayerToTeams = function(playerId, callback) {
+exports.joinPlayerToTeams = (playerId, callback) => {
   knex('players_teams')
   .select('name', 'sports.image as sportImage', 'teams.image as teamImage', 'zip', 'teams.gender', 'coed', 'type')
   .join('players', 'players.id', '=', 'players_teams.players_id')
@@ -186,7 +186,7 @@ exports.joinPlayerToTeams = function(playerId, callback) {
   });
 };
 
-exports.joinPlayerToSports = function(playerId, callback) {
+exports.joinPlayerToSports = (playerId, callback) => {
   knex('players_sports')
   .select('type')
   .join('players', 'players.id', '=', 'players_sports.players_id')
@@ -229,7 +229,7 @@ exports.getEventsSuperTable = (callback, eventId) => {
   }
 };
 
-exports.joinPlayerToEvents = function(playerId, callback) {
+exports.joinPlayerToEvents = (playerId, callback) => {
   knex('players_events')
   .orderBy('date', 'asc')
   .select('date', 'start_time', 'end_time', 'name', 'description')
@@ -255,7 +255,7 @@ exports.joinPlayersToLadder = (ladderName, callback) => {
   });
 };
 
-exports.updateOne = function(tableName, itemId, updateObject, callback) {
+exports.updateOne = (tableName, itemId, updateObject, callback) => {
   let updatedPlayer = {};
   knex(tableName)
   .where('id', itemId)
@@ -348,9 +348,9 @@ exports.ladderUpdate = (tableName, winnerId, loserId, callback) => {
   });
 };
 
-exports.getWeather = function(zip, callback) {
+exports.getWeather = (zip, callback) => {
   const WEATHER_URL = 'https://api.wunderground.com/api/903be07b671ce816/conditions/q/' + zip + '.json';
-  request(WEATHER_URL, function(error, response, result) {
+  request(WEATHER_URL, (error, response, result) => {
     if (error) {
       callback(error);
     } else {
