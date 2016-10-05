@@ -5,7 +5,8 @@ exports.seed = function (knex, Promise) {
     return Promise.all([
       knex('ladders').insert({
         type: 'Singles Ping Pong',
-        sport_id: 11
+        sport_id: 11,
+        max_positions: 20
       })
     ]);
   });

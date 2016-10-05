@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
     table.string('type').notNullable();
     table.integer('sport_id').notNullable();
     table.foreign('sport_id').references('id').inTable('sports');
-    table.integer('number_of_positions');
     table.integer('max_positions');
   });
 };

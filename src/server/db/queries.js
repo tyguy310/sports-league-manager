@@ -278,31 +278,42 @@ exports.updateOne = function(tableName, itemId, updateObject, callback) {
   });
 };
 
-exports.ladderUpdate = (tableName, playerOneId, playertwoId, callback) => {
-  let updateArray = [];
+exports.ladderUpdate = (tableName, winnerId, loserId, callback) => {
+  const updateArray = [];
 
   knex(tableName)
-  .where('player_id', playerOneId)
-  .orWhere('player_id', playertwoId)
-  .then(players => {
-    const playerOneRank = players[1].rank;
-
+  .where('player_id', winnerId)
+  .then(player => {
+    const winner = player[0];
     knex(tableName)
-    .where('player_id', playerOneId)
-    .update('rank', playerOneRank)
-    .then(playerOne => {
-      updateArray.push({rank: playerOneRank, player_id:`${playerOneId}`});
-      const playerTwoRank = players[0].rank;
-
-      knex(tableName)
-      .where('player_id', playertwoId)
-      .update('rank', playerTwoRank)
-      .then(playerTwo => {
-        updateArray.push({rank: playerTwoRank, player_id:`${playertwoId}`});
+    .where('player_id', loserId)
+    .then(player => {
+      const loser = player[0];
+      if (winner.rank < loser.rank) {
+        const tryAgain = 'Challenger Lost';
+        updateArray.push({message: tryAgain});
         callback(null, updateArray);
-      });
+      } else {
+        const winnerRank = loser.rank;
+
+        knex(tableName)
+        .where('player_id', winnerId)
+        .update('rank', winnerRank)
+        .then(playerOne => {
+          updateArray.push({rank: winnerRank, player_id:`${winnerId}`});
+          const loserRank = winner.rank;
+
+          knex(tableName)
+          .where('player_id', loserId)
+          .update('rank', loserRank)
+          .then(playerTwo => {
+            updateArray.push({rank: loserRank, player_id:`${loserId}`});
+            callback(null, updateArray);
+          });
+        });
+      }
+      return updateArray;
     });
-    return updateArray;
   })
   .catch(err=> {
     callback(err);

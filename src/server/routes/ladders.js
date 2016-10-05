@@ -66,12 +66,12 @@ router.post('/ladder/:ladder_name/:player_id', (req, res, next) => {
   });
 });
 
-router.put('/ladder/:ladder_name/:one_id/:two_id', function (req, res, next) {
-  let playerOneId = req.params.one_id;
-  let playertwoId = req.params.two_id;
+router.put('/ladder/:ladder_name/:winner_id/:loser_id', function (req, res, next) {
+  let winnerId = req.params.winner_id;
+  let loserId = req.params.loser_id;
   let ladderName = req.params.ladder_name;
 
-  queries.ladderUpdate(ladderName, playerOneId, playertwoId, function(err, result) {
+  queries.ladderUpdate(ladderName, winnerId, loserId, function(err, result) {
     if (err) {
       res.json({
         error: err
