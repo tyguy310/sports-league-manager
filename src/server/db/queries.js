@@ -229,7 +229,7 @@ exports.joinPlayerToEvents = function(playerId, callback) {
 
 exports.joinPlayersToLadder = (ladderName, callback) => {
   knex(ladderName)
-  .select('*', ` ${ladderName}.id as rank`)
+  .select('*', ` ${ladderName}.rank as rank`)
   .join('players', 'players.id', `${ladderName}.player_id`)
   .then(result => {
     callback(null, result);
@@ -261,28 +261,36 @@ exports.updateOne = function(tableName, itemId, updateObject, callback) {
   });
 };
 
-// exports.ladderUpdate = (tableName, playerOneId, playertwoId, callback) => {
-//   let updatedPlayer = {};
-//   knex(tableName)
-//   .where('id', playerOneId)
-//   .then(player => {
-//     for (let key in updateObject) {
-//       if (updateObject[key] === null) {
-//         updatedPlayer[key] = player[key];
-//       } else {
-//         updatedPlayer[key] = updateObject[key];
-//       }
-//     }
-//     knex(tableName)
-//     .where('id', itemId)
-//     .update(updatedPlayer)
-//     .then(result => {
-//       callback(null, result);
-//     });
-//   }).catch(err=> {
-//     callback(err);
-//   });
-// };
+exports.ladderUpdate = (tableName, playerOneId, playertwoId, callback) => {
+  let updateArray = [];
+
+  knex(tableName)
+  .where('player_id', playerOneId)
+  .orWhere('player_id', playertwoId)
+  .then(players => {
+    const playerOneRank = players[1].rank;
+
+    knex(tableName)
+    .where('player_id', playerOneId)
+    .update('rank', playerOneRank)
+    .then(playerOne => {
+      updateArray.push({rank: playerOneRank, player_id:`${playerOneId}`});
+      const playerTwoRank = players[0].rank;
+
+      knex(tableName)
+      .where('player_id', playertwoId)
+      .update('rank', playerTwoRank)
+      .then(playerTwo => {
+        updateArray.push({rank: playerTwoRank, player_id:`${playertwoId}`});
+        callback(null, updateArray);
+      });
+    });
+    return updateArray;
+  })
+  .catch(err=> {
+    callback(err);
+  });
+};
 
 exports.getWeather = function(zip, callback) {
   const WEATHER_URL = 'https://api.wunderground.com/api/903be07b671ce816/conditions/q/' + zip + '.json';
