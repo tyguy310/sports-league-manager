@@ -24,7 +24,7 @@ router.get('/:id', function (req, res, next) {
   let itemId = req.params.id;
   queries.getItems('ladders', (err, result) => {
     if (err) {
-      renderObject.message = err.message || 'Sorry, we had an issue finding that event. Please try again.';
+      renderObject.message = err.message || 'Sorry, we had an issue finding that ladder. Please try again.';
       res.json({
         error: renderObject
       });
@@ -40,7 +40,7 @@ router.get('/ladder/:ladder_name', function (req, res, next) {
   let ladderName = req.params.ladder_name;
   queries.joinPlayersToLadder(`${ladderName}`, (err, result) => {
     if (err) {
-      renderObject.message = err.message || 'Sorry, we had an issue finding that event. Please try again.';
+      renderObject.message = err.message || 'Sorry, we had an issue finding that ladder. Please try again.';
       res.json({
         error: renderObject
       });
