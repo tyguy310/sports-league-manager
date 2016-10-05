@@ -278,6 +278,34 @@ exports.updateOne = function(tableName, itemId, updateObject, callback) {
   });
 };
 
+exports.ladderDelete = (ladderName, playerId, callback) => {
+  knex(ladderName)
+  .where('player_id', playerId)
+  .returning('rank')
+  .del()
+  .then(player => {
+    const deletedRank = player[0];
+
+    knex(ladderName)
+    .where(`${ladderName}.rank`, '>', deletedRank)
+    .then(players => {
+      const newRanks = [];
+      for (let i = 0; i < players.length; i++) {
+        knex(ladderName)
+        .where('rank', deletedRank + i + 1)
+        .update('rank', deletedRank + i)
+        .then(player => {
+          return player[0];
+        });
+      }
+    });
+    callback(null, 'success');
+  })
+  .catch(err=> {
+    callback(err);
+  });
+};
+
 exports.ladderUpdate = (tableName, winnerId, loserId, callback) => {
   const updateArray = [];
 
