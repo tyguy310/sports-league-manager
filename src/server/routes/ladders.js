@@ -51,12 +51,27 @@ router.get('/ladder/:ladder_name', function (req, res, next) {
   });
 });
 
+router.post('/ladder/:ladder_name/:player_id', (req, res, next) => {
+  let playerId = req.params.player_id;
+  let ladderName = req.params.ladder_name;
+
+  queries.ladderPost(ladderName, playerId, (err, result) => {
+    if (err) {
+      res.json({
+        error: err
+      });
+    } else {
+      res.json(result);
+    }
+  });
+});
+
 router.put('/ladder/:ladder_name/:one_id/:two_id', function (req, res, next) {
   let playerOneId = req.params.one_id;
   let playertwoId = req.params.two_id;
   let ladderName = req.params.ladder_name;
 
-  queries.ladderUpdate(`${ladderName}`, playerOneId, playertwoId, function(err, result) {
+  queries.ladderUpdate(ladderName, playerOneId, playertwoId, function(err, result) {
     if (err) {
       res.json({
         error: err

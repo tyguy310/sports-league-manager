@@ -156,6 +156,22 @@ exports.postItem = function (tableName, object, callback) {
   });
 };
 
+exports.ladderPost = (ladderName, participantId, callback) => {
+  knex(ladderName)
+  .max('rank')
+  .then(result => {
+    let addPlayer = {
+      rank: result[0].max + 1,
+      player_id: participantId
+    };
+
+    knex(ladderName)
+    .insert(addPlayer)
+    .then(result => callback (null, result))
+      .catch(err => callback(err));
+  });
+};
+
 exports.joinPlayerToTeams = function(playerId, callback) {
   knex('players_teams')
   .select('name', 'sports.image as sportImage', 'teams.image as teamImage', 'zip', 'teams.gender', 'coed', 'type')
@@ -230,6 +246,7 @@ exports.joinPlayerToEvents = function(playerId, callback) {
 exports.joinPlayersToLadder = (ladderName, callback) => {
   knex(ladderName)
   .select('*', ` ${ladderName}.rank as rank`)
+  .orderBy(`${ladderName}.rank`)
   .join('players', 'players.id', `${ladderName}.player_id`)
   .then(result => {
     callback(null, result);
