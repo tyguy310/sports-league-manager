@@ -46,7 +46,7 @@ exports.seed = function (knex, Promise) {
       knex('teams').insert({
         name: 'Grass Kickers',
         zip: 80238,
-        image: 'https://hd.unsplash.com/photo-1431324155629-1a6deb1dec8d'
+        image: 'https://hd.unsplash.com/photo-1431324155629-1a6deb1dec8d',
         gender: 'female',
         coed: 'true',
         sports_id:   knex('sports').select('id').where('type', 'Soccer')
@@ -244,7 +244,7 @@ exports.seed = function (knex, Promise) {
       knex('teams').insert({
         name: 'Booze on First',
         zip: 80203,
-        image: 'https://hd.unsplash.com/photo-1470083748587-df49227c0505'
+        image: 'https://hd.unsplash.com/photo-1470083748587-df49227c0505',
         gender: 'male',
         coed: 'false',
         sports_id:        knex('sports').select('id').where('type', 'Baseball')
@@ -260,7 +260,7 @@ exports.seed = function (knex, Promise) {
       knex('teams').insert({
         name: 'Liver Let Die',
         zip: 80247,
-        image: 'https://hd.unsplash.com/photo-1436076863939-06870fe779c2'
+        image: 'https://hd.unsplash.com/photo-1436076863939-06870fe779c2',
         gender: 'female',
         coed: 'false',
         sports_id:         knex('sports').select('id').where('type', 'Beer Pong')
@@ -268,7 +268,7 @@ exports.seed = function (knex, Promise) {
       knex('teams').insert({
         name: 'E=MC Hammered',
         zip: 80239,
-        image: 'https://hd.unsplash.com/photo-1436076863939-06870fe779c2'
+        image: 'https://hd.unsplash.com/photo-1436076863939-06870fe779c2',
         gender: 'male',
         coed: 'false',
         sports_id:         knex('sports').select('id').where('type', 'Beer Pong')
@@ -276,7 +276,7 @@ exports.seed = function (knex, Promise) {
       knex('teams').insert({
         name: 'Drunk & Looking to Score',
         zip: 80227,
-        image: 'https://hd.unsplash.com/photo-1436076863939-06870fe779c2'
+        image: 'https://hd.unsplash.com/photo-1436076863939-06870fe779c2',
         gender: 'female',
         coed: 'false',
         sports_id:          knex('sports').select('id').where('type', 'Beer Pong')
@@ -310,5 +310,6 @@ exports.seed = function (knex, Promise) {
         coed: 'true',
         sports_id: knex('sports').select('id').where('type', 'Cornhole')
       })
-    });
-}
+    ]);
+  });
+};

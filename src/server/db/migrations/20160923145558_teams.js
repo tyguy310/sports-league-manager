@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('name').notNullable();
     table.string('image').notNullable();
     table.string('zip').notNullable();
-    table.string('gender').notNullable();
+    table.string('gender');
     table.boolean('coed').notNullable();
     table.integer('sports_id').notNullable();
     table.foreign('sports_id').references('id').inTable('sports');
