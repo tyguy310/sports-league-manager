@@ -38,7 +38,8 @@ router.get('/:id', (req, res, next) => {
 router.get('/ladder/:ladder_name', (req, res, next) => {
   const renderObject = {};
   const ladderName = req.params.ladder_name;
-  queries.joinPlayersToLadder(`${ladderName}`, (err, result) => {
+  console.log(ladderName);
+  queries.joinPlayersToLadder(ladderName, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue finding that ladder. Please try again.';
       res.json({
@@ -51,19 +52,39 @@ router.get('/ladder/:ladder_name', (req, res, next) => {
   });
 });
 
-router.post('/ladder/:ladder_name/:player_id', (req, res, next) => {
-  const playerId = req.params.player_id;
-  const ladderName = req.params.ladder_name;
+router.post('/register', (req, res, next) => {
+  const playerId = req.body.player_id;
+  const ladderName = req.body.table_name;
+  const ladderId = req.body.ladder_id;
+  const addPlayer = {
+    player_id: playerId,
+    ladder_id: ladderId
+  };
 
-  queries.ladderPost(ladderName, playerId, (err, result) => {
-    if (err) {
-      res.json({
-        error: err
-      });
-    } else {
-      res.json(result);
-    }
-  });
+  let allLadders = Promise.resolve(queries.postLadderPlayer('ladders_players', addPlayer, (err, result) => {
+      if (err) {
+        return err;
+      } else {
+        return result;
+      }
+    })
+  );
+
+  let playerAdd = Promise.resolve(queries.ladderPost(ladderName, playerId, (err, result) => {
+      if (err) {
+        return err;
+      } else {
+        return result;
+      }
+    })
+  );
+
+  Promise.all([allLadders, playerAdd])
+  .then(results => {
+    console.log(results);
+    res.json(results);
+  })
+  .catch(err => err);
 });
 
 router.put('/ladder/:ladder_name/:winner_id/:loser_id', (req, res, next) => {
@@ -86,7 +107,7 @@ router.delete('/ladder/:ladder_name/:player_id', (req, res, next) => {
   const ladderName = req.params.ladder_name;
   const playerId = req.params.player_id;
 
-  queries.ladderDelete(ladderName, playerId, (err, result) => {
+  queries.ladderRemovePlayer(ladderName, playerId, (err, result) => {
     if (err) {
       res.json({
         error: err

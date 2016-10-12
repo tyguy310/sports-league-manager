@@ -156,20 +156,26 @@ exports.postItem = (tableName, object, callback) => {
   });
 };
 
+exports.postLadderPlayer = (tableName, object, callback) => {
+  return knex(tableName)
+  .insert(object)
+  .then(result => result)
+  .catch(err => err);
+};
+
 exports.ladderPost = (ladderName, participantId, callback) => {
-  knex(ladderName)
+  return knex(ladderName)
   .max('rank')
   .then(result => {
     let addPlayer = {
       rank: result[0].max + 1,
       player_id: participantId
     };
-
-    knex(ladderName)
+    return knex(ladderName)
     .insert(addPlayer)
-    .then(result => callback (null, result))
-      .catch(err => callback(err));
-  });
+    .then(result => result);
+  })
+  .catch(err => err);
 };
 
 exports.joinPlayerToTeams = (playerId, callback) => {
@@ -245,7 +251,7 @@ exports.joinPlayerToEvents = (playerId, callback) => {
 
 exports.joinPlayersToLadder = (ladderName, callback) => {
   knex(ladderName)
-  .select('*', ` ${ladderName}.rank as rank`)
+  .select('player_id', 'first_name', 'last_name', ` ${ladderName}.rank as rank`)
   .orderBy(`${ladderName}.rank`)
   .join('players', 'players.id', `${ladderName}.player_id`)
   .then(result => {
@@ -278,7 +284,7 @@ exports.updateOne = (tableName, itemId, updateObject, callback) => {
   });
 };
 
-exports.ladderDelete = (ladderName, playerId, callback) => {
+exports.ladderRemovePlayer = (ladderName, playerId, callback) => {
   knex(ladderName)
   .where('player_id', playerId)
   .returning('rank')
