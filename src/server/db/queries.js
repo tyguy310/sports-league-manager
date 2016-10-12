@@ -251,7 +251,7 @@ exports.joinPlayerToEvents = (playerId, callback) => {
 
 exports.joinPlayersToLadder = (ladderName, callback) => {
   knex(ladderName)
-  .select('*', ` ${ladderName}.rank as rank`)
+  .select('player_id', 'first_name', 'last_name', ` ${ladderName}.rank as rank`)
   .orderBy(`${ladderName}.rank`)
   .join('players', 'players.id', `${ladderName}.player_id`)
   .then(result => {

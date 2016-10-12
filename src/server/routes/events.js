@@ -12,7 +12,6 @@ router.get('/', function (req, res, next) {
       });
     } else {
       renderObject.events = result;
-      console.log('regular');
       res.json({
         events: renderObject,
         test: req.headers.Auth_Token
@@ -31,7 +30,6 @@ router.get('/super_table', function (req, res, next) {
       });
     } else {
       renderObject.events = result;
-      console.log('super');
       res.json({
         events: renderObject,
         test: req.headers.Auth_Token

@@ -38,7 +38,8 @@ router.get('/:id', (req, res, next) => {
 router.get('/ladder/:ladder_name', (req, res, next) => {
   const renderObject = {};
   const ladderName = req.params.ladder_name;
-  queries.joinPlayersToLadder(`${ladderName}`, (err, result) => {
+  console.log(ladderName);
+  queries.joinPlayersToLadder(ladderName, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue finding that ladder. Please try again.';
       res.json({
