@@ -1,8 +1,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('singles_ping_pong', (table) => {
     table.integer('rank');
-    table.integer('player_id').notNullable();
-    table.foreign('player_id').references('id').inTable('players');
+    table.integer('player_id').references('id').inTable('players');
   });
 };
 
