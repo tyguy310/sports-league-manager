@@ -261,6 +261,18 @@ exports.joinPlayersToLadder = (ladderName, callback) => {
   });
 };
 
+exports.joinSportToLadder = (ladderId, callback) => {
+  knex('ladders')
+  .select('*', 'ladders.id', 'ladders.type')
+  .join('sports', 'sports.id', 'ladders.sport_id')
+  .where('ladders.id', ladderId)
+  .then(result => {
+    callback(null, result);
+  }).catch(err => {
+    callback(err);
+  });
+};
+
 exports.updateOne = (tableName, itemId, updateObject, callback) => {
   let updatedPlayer = {};
   knex(tableName)

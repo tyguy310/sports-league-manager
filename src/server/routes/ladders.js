@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const renderObject = {};
   const itemId = req.params.id;
-  queries.getItems('ladders', (err, result) => {
+  queries.joinSportToLadder(itemId, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue finding that ladder. Please try again.';
       res.json({
@@ -38,7 +38,6 @@ router.get('/:id', (req, res, next) => {
 router.get('/ladder/:ladder_name', (req, res, next) => {
   const renderObject = {};
   const ladderName = req.params.ladder_name;
-  console.log(ladderName);
   queries.joinPlayersToLadder(ladderName, (err, result) => {
     if (err) {
       renderObject.message = err.message || 'Sorry, we had an issue finding that ladder. Please try again.';
@@ -81,7 +80,6 @@ router.post('/register', (req, res, next) => {
 
   Promise.all([allLadders, playerAdd])
   .then(results => {
-    console.log(results);
     res.json(results);
   })
   .catch(err => err);
