@@ -71,4 +71,22 @@ router.post('/', function (req, res, next) {
   });
 });
 
+router.post('/register', function (req, res, next) {
+  let newRegistration = {
+    players_id: req.body.player_id,
+    teams_id: req.body.team_id
+  };
+  queries.postItem('players_teams', newRegistration, function (err, result) {
+    if (err) {
+      res.json({
+        error: err.message || 'Sorry, there was an issue registering you for that team.'
+      });
+    } else {
+      res.json({
+        message: 'Thank you for registering!'
+      });
+    }
+  });
+});
+
 module.exports = router;
