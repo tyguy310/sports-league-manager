@@ -7,10 +7,8 @@ exports.up = function(knex, Promise) {
     table.string('end_time').notNullable();
     table.string('name').notNullable();
     table.string('description').notNullable();
-    table.integer('locations_id').notNullable();
-    table.foreign('locations_id').references('id').inTable('locations');
-    table.integer('sports_id').notNullable();
-    table.foreign('sports_id').references('id').inTable('sports');
+    table.integer('locations_id').references('id').inTable('locations');
+    table.integer('sports_id').references('id').inTable('sports');
   });
 };
 

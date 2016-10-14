@@ -1,9 +1,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('players_sports', table => {
-    table.integer('players_id');
-    table.foreign('players_id').references('id').inTable('players');
-    table.integer('sports_id');
-    table.foreign('sports_id').references('id').inTable('sports');
+    table.integer('players_id').references('id').inTable('players');
+    table.integer('sports_id').references('id').inTable('sports');
   });
 };
 
